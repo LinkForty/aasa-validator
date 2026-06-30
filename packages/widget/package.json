@@ -1,0 +1,28 @@
+{
+  "name": "@linkforty/aasa-widget",
+  "version": "0.1.0",
+  "description": "Framework-agnostic <aasa-validator> web component.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./standalone": "./dist/aasa-validator.global.js"
+  },
+  "files": ["dist"],
+  "sideEffects": ["**/*"],
+  "keywords": ["aasa", "universal-links", "web-component", "custom-element"],
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@linkforty/aasa-core": "workspace:*",
+    "lit": "^3.2.1"
+  }
+}

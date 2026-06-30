@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AASA Validator — plain HTML example</title>
+    <style>
+      body {
+        max-width: 48rem;
+        margin: 3rem auto;
+        padding: 0 1rem;
+        font-family: system-ui, sans-serif;
+        line-height: 1.5;
+      }
+      /* The widget is themeable via CSS custom properties. */
+      aasa-validator {
+        --aasa-color-accent: #6d28d9;
+      }
+    </style>
+  </head>
+  <body>
+    <!--
+      This wrapper content is YOURS to write. The open-source tool is only the
+      <aasa-validator> element below — bring your own copy, headings, and SEO text.
+    -->
+    <h1>Check your Apple App Site Association file</h1>
+    <p>Enter a domain to validate its AASA file for iOS Universal Links.</p>
+
+    <aasa-validator endpoint="http://localhost:8787/validate" advanced></aasa-validator>
+
+    <!--
+      In production, load the published build from a CDN:
+      <script type="module"
+        src="https://unpkg.com/@linkforty/aasa-widget/dist/aasa-validator.global.js"></script>
+
+      For this local example we reference the build in the repo. Run
+      `pnpm --filter @linkforty/aasa-widget build` first.
+    -->
+    <script type="module" src="../../packages/widget/dist/aasa-validator.global.js"></script>
+  </body>
+</html>

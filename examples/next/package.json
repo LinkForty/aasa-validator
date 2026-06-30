@@ -1,0 +1,17 @@
+{
+  "name": "@linkforty/aasa-example-next",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Reference Next.js App Router page embedding @linkforty/aasa-react.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@linkforty/aasa-react": "^0.1.0",
+    "next": "^15.1.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  }
+}

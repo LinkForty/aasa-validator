@@ -1,0 +1,31 @@
+{
+  "name": "aasa-validator",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Validate Apple App Site Association (AASA) files for iOS Universal Links.",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "packageManager": "pnpm@10.30.3",
+  "scripts": {
+    "build": "pnpm -r --filter \"./packages/*\" build",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "pnpm -r --filter \"./packages/*\" typecheck",
+    "lint": "biome check .",
+    "format": "biome format --write .",
+    "check": "biome check --write ."
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "@changesets/cli": "^2.27.11",
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["@biomejs/biome", "esbuild", "workerd"]
+  }
+}

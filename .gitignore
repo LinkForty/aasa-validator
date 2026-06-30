@@ -1,0 +1,16 @@
+node_modules/
+dist/
+coverage/
+.next/
+out/
+*.tsbuildinfo
+.DS_Store
+.idea/
+.vscode/
+.wrangler/
+.dev.vars
+.env
+.env.*
+!.env.example
+npm-debug.log*
+pnpm-debug.log*

@@ -1,0 +1,22 @@
+{
+  "name": "@linkforty/aasa-worker",
+  "version": "0.1.0",
+  "description": "Cloudflare Worker reference backend for AASA Validator.",
+  "license": "MIT",
+  "type": "module",
+  "private": false,
+  "main": "./src/index.ts",
+  "files": ["src", "wrangler.jsonc"],
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "build": "wrangler deploy --dry-run --outdir dist",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@linkforty/aasa-core": "workspace:*"
+  },
+  "devDependencies": {
+    "wrangler": "^3.95.0"
+  }
+}
