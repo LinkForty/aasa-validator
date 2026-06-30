@@ -7,8 +7,9 @@ on:
 concurrency: release-${{ github.ref }}
 
 permissions:
-  contents: write
-  pull-requests: write
+  contents: write # changesets pushes the version PR and tags
+  pull-requests: write # changesets opens the "Version Packages" PR
+  id-token: write # OIDC: authenticate to npm via trusted publishing (no token)
 
 jobs:
   release:
@@ -20,7 +21,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: pnpm
           registry-url: https://registry.npmjs.org
 
@@ -29,6 +30,7 @@ jobs:
       - run: pnpm build
 
       # Opens/updates a "Version Packages" PR, or publishes to npm when that PR merges.
+      # Auth is via GitHub OIDC trusted publishing — no NPM_TOKEN needed.
       - name: Create release PR or publish
         uses: changesets/action@v1
         with:
@@ -36,5 +38,4 @@ jobs:
           version: pnpm changeset version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true
