@@ -6,10 +6,7 @@
   "type": "module",
   "private": false,
   "main": "./src/index.ts",
-  "files": [
-    "src",
-    "wrangler.jsonc"
-  ],
+  "files": ["src", "wrangler.jsonc"],
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",

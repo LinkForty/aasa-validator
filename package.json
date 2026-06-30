@@ -16,7 +16,8 @@
     "typecheck": "pnpm -r --filter \"./packages/*\" typecheck",
     "lint": "biome check .",
     "format": "biome format --write .",
-    "check": "biome check --write ."
+    "check": "biome check --write .",
+    "version-packages": "changeset version && biome format --write ."
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",

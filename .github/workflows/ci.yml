@@ -1,9 +1,14 @@
 name: CI
 
+# Runs on PRs (and manually). Pushes to main are handled by the Release workflow,
+# which builds the same packages — so we don't duplicate that work here.
 on:
-  push:
-    branches: [main]
   pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:

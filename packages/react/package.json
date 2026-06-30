@@ -13,16 +13,9 @@
       "import": "./dist/index.js"
     }
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "sideEffects": false,
-  "keywords": [
-    "aasa",
-    "universal-links",
-    "react",
-    "nextjs"
-  ],
+  "keywords": ["aasa", "universal-links", "react", "nextjs"],
   "scripts": {
     "build": "tsup",
     "typecheck": "tsc --noEmit"

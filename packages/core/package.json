@@ -13,17 +13,9 @@
       "import": "./dist/index.js"
     }
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "sideEffects": false,
-  "keywords": [
-    "aasa",
-    "apple-app-site-association",
-    "universal-links",
-    "ios",
-    "deeplinks"
-  ],
+  "keywords": ["aasa", "apple-app-site-association", "universal-links", "ios", "deeplinks"],
   "scripts": {
     "build": "tsup",
     "typecheck": "tsc --noEmit"

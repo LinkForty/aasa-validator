@@ -35,7 +35,9 @@ jobs:
         uses: changesets/action@v1
         with:
           publish: pnpm changeset publish
-          version: pnpm changeset version
+          # Re-format after the version bump so changesets' JSON style doesn't
+          # trip Biome's formatter in CI on the Version Packages PR.
+          version: pnpm run version-packages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
