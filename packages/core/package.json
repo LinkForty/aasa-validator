@@ -1,6 +1,6 @@
 {
   "name": "@linkforty/aasa-core",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Runtime-agnostic engine that validates Apple App Site Association (AASA) files for iOS Universal Links.",
   "license": "MIT",
   "type": "module",
@@ -13,9 +13,17 @@
       "import": "./dist/index.js"
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "sideEffects": false,
-  "keywords": ["aasa", "apple-app-site-association", "universal-links", "ios", "deeplinks"],
+  "keywords": [
+    "aasa",
+    "apple-app-site-association",
+    "universal-links",
+    "ios",
+    "deeplinks"
+  ],
   "scripts": {
     "build": "tsup",
     "typecheck": "tsc --noEmit"
