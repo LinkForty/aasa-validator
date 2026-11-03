@@ -43,6 +43,11 @@ export default function Page() {
 
 All of these are optional. Without them the component renders exactly as before.
 
+The extras these props add (the source line, and the `<details>` elements from `showRaw` and
+`collapseAdvanced`) have no built-in styles, so in the default styled mode they render with your
+page's or the browser's defaults. Style them through their classes (`aasa-source`, `aasa-raw`,
+`aasa-advanced-toggle`).
+
 ## Theming
 
 The component is styled inline using CSS custom properties, so set them on any ancestor:
@@ -75,7 +80,12 @@ Every element carries a stable class name, whether or not the component is style
 | `aasa-raw` | The raw file `<details>` (`showRaw`) |
 
 Inline styles win over stylesheet rules, so to lay the component out yourself pass `unstyled` and
-style these classes. For example, a two-column grid of check groups:
+style these classes. With `unstyled`, the `--aasa-color-*` and `--aasa-font` variables no longer
+apply on their own, because they are read inside the inline styles that `unstyled` removes. Your
+stylesheet colours everything itself, including the status of each check through `aasa-item-pass`,
+`aasa-item-warn`, `aasa-item-fail` and `aasa-item-skip` (and the badge through `aasa-badge-valid` /
+`aasa-badge-issues`). You can still use the variables in your own rules, e.g.
+`.aasa-item-fail .aasa-icon { background: var(--aasa-color-fail); }`. For example, a two-column grid of check groups:
 
 ```css
 .aasa-result { display: grid; grid-template-columns: 1fr 1fr; gap: 0 2rem; }
