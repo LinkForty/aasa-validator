@@ -25,6 +25,10 @@ jobs:
           cache: pnpm
           registry-url: https://registry.npmjs.org
 
+      # npm trusted publishing (OIDC) needs npm >= 11.5.1; Node 22 ships npm 10, which publishes
+      # without credentials and gets a 404 from the registry.
+      - run: npm install -g npm@^11.5.1
+
       - run: pnpm install --frozen-lockfile
 
       - run: pnpm build
