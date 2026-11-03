@@ -1,5 +1,11 @@
 # @linkforty/aasa-react
 
+## 0.3.0
+
+### Minor Changes
+
+- 18a4ac0: Add stable `aasa-*` class names to every element, and optional props for laying the component out with your own CSS: `unstyled`, `showSource`, `showRaw` with `renderRaw`, and `collapseAdvanced` with `advancedSummary`. Without the new props the component renders as before.
+
 ## 0.2.0
 
 ### Minor Changes
