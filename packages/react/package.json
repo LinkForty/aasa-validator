@@ -1,6 +1,6 @@
 {
   "name": "@linkforty/aasa-react",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Native React component for AASA Validator (SSR-safe).",
   "license": "MIT",
   "type": "module",
