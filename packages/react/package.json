@@ -3,6 +3,11 @@
   "version": "0.3.0",
   "description": "Native React component for AASA Validator (SSR-safe).",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LinkForty/aasa-validator.git",
+    "directory": "packages/react"
+  },
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",

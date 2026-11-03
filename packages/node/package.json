@@ -3,6 +3,11 @@
   "version": "0.2.0",
   "description": "Node/Express reference backend for AASA Validator.",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LinkForty/aasa-validator.git",
+    "directory": "packages/node"
+  },
   "type": "module",
   "main": "./dist/app.js",
   "types": "./dist/app.d.ts",

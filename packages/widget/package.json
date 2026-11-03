@@ -3,6 +3,11 @@
   "version": "0.2.0",
   "description": "Framework-agnostic <aasa-validator> web component.",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LinkForty/aasa-validator.git",
+    "directory": "packages/widget"
+  },
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",

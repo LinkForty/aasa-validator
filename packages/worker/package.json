@@ -3,6 +3,11 @@
   "version": "0.2.0",
   "description": "Cloudflare Worker reference backend for AASA Validator.",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LinkForty/aasa-validator.git",
+    "directory": "packages/worker"
+  },
   "type": "module",
   "private": false,
   "main": "./src/index.ts",
