@@ -6,7 +6,7 @@ import {
   buildValidateUrl,
   toChecklist,
 } from '@linkforty/aasa-core';
-import { type CSSProperties, type FormEvent, useState } from 'react';
+import { type CSSProperties, type FormEvent, type ReactNode, useState } from 'react';
 
 const GROUP_LABELS: Record<CheckGroup, string> = {
   hosting: 'Hosting',
@@ -129,19 +129,48 @@ export interface AasaValidatorProps {
   /** Extra props applied to the root element (e.g. className, style). */
   className?: string;
   style?: CSSProperties;
+  /**
+   * Render without the built-in inline styles. Every element keeps its `aasa-*` class name,
+   * so a stylesheet can lay the component out from scratch. Default `false`.
+   */
+  unstyled?: boolean;
+  /** Show the URL the file was read from under the summary. Default `false`. */
+  showSource?: boolean;
+  /** Show the raw file in a collapsible `<details>` under the checks. Default `false`. */
+  showRaw?: boolean;
+  /**
+   * Custom rendering of the raw file's contents inside its `<pre>`, e.g. for syntax
+   * highlighting. Only used when `showRaw` is set. Defaults to the plain text.
+   */
+  renderRaw?: (raw: string) => ReactNode;
+  /** Put the `advanced` fields inside a collapsed `<details>`. Default `false`. */
+  collapseAdvanced?: boolean;
+  /** Summary text of the collapsed `advanced` fields (default `Optional: check your app`). */
+  advancedSummary?: string;
 }
 
-function ChecklistRow({ item }: { item: ChecklistItem }) {
+/** Returns the inline style unless the component is unstyled. */
+type Sx = (style: CSSProperties) => CSSProperties | undefined;
+
+function ChecklistRow({ item, sx }: { item: ChecklistItem; sx: Sx }) {
   return (
-    <li style={s.item}>
-      <span style={{ ...s.icon, background: STATUS_VAR[item.status] }} aria-hidden>
+    <li className={`aasa-item aasa-item-${item.status}`} style={sx(s.item)}>
+      <span
+        className="aasa-icon"
+        style={sx({ ...s.icon, background: STATUS_VAR[item.status] })}
+        aria-hidden
+      >
         {STATUS_SYMBOL[item.status]}
       </span>
-      <div>
-        <div style={s.checkLabel}>{item.label}</div>
-        <div style={s.checkMsg}>{item.message}</div>
+      <div className="aasa-item-body">
+        <div className="aasa-check-label" style={sx(s.checkLabel)}>
+          {item.label}
+        </div>
+        <div className="aasa-check-message" style={sx(s.checkMsg)}>
+          {item.message}
+        </div>
         {item.details.length > 0 && (
-          <ul style={s.details}>
+          <ul className="aasa-details" style={sx(s.details)}>
             {item.details.map((d) => (
               <li key={d}>{d}</li>
             ))}
@@ -158,7 +187,14 @@ export function AasaValidator({
   onResult,
   className,
   style,
+  unstyled = false,
+  showSource = false,
+  showRaw = false,
+  renderRaw,
+  collapseAdvanced = false,
+  advancedSummary = 'Optional: check your app',
 }: AasaValidatorProps) {
+  const sx: Sx = (st) => (unstyled ? undefined : st);
   const [domain, setDomain] = useState('');
   const [appID, setAppID] = useState('');
   const [teamID, setTeamID] = useState('');
@@ -196,16 +232,67 @@ export function AasaValidator({
 
   const items = result ? toChecklist(result) : [];
 
+  const advancedFields = (
+    <div className="aasa-advanced" style={sx(s.advanced)}>
+      <div className="aasa-field aasa-field-appid" style={sx(s.field)}>
+        <label className="aasa-label" style={sx(s.label)} htmlFor="aasa-appid">
+          App ID (optional)
+        </label>
+        <input
+          id="aasa-appid"
+          className="aasa-input"
+          style={sx(s.input)}
+          type="text"
+          placeholder="ABCDE12345.com.example.app"
+          value={appID}
+          onChange={(e) => setAppID(e.target.value)}
+        />
+      </div>
+      <div className="aasa-field aasa-field-team" style={sx(s.field)}>
+        <label className="aasa-label" style={sx(s.label)} htmlFor="aasa-team">
+          Team ID (optional)
+        </label>
+        <input
+          id="aasa-team"
+          className="aasa-input"
+          style={sx(s.input)}
+          type="text"
+          placeholder="ABCDE12345"
+          value={teamID}
+          onChange={(e) => setTeamID(e.target.value)}
+        />
+      </div>
+      <div className="aasa-field aasa-field-bundle" style={sx(s.field)}>
+        <label className="aasa-label" style={sx(s.label)} htmlFor="aasa-bundle">
+          Bundle ID (optional)
+        </label>
+        <input
+          id="aasa-bundle"
+          className="aasa-input"
+          style={sx(s.input)}
+          type="text"
+          placeholder="com.example.app"
+          value={bundleID}
+          onChange={(e) => setBundleID(e.target.value)}
+        />
+      </div>
+    </div>
+  );
+
   return (
-    <div className={className} style={{ ...s.root, ...style }}>
-      <form style={s.form} onSubmit={onSubmit}>
-        <div style={s.field}>
-          <label style={s.label} htmlFor="aasa-domain">
+    <div
+      className={className ? `aasa ${className}` : 'aasa'}
+      style={unstyled ? style : { ...s.root, ...style }}
+    >
+      <form className="aasa-form" style={sx(s.form)} onSubmit={onSubmit}>
+        <div className="aasa-field aasa-field-domain" style={sx(s.field)}>
+          <label className="aasa-label" style={sx(s.label)} htmlFor="aasa-domain">
             Domain
           </label>
           <input
             id="aasa-domain"
-            style={s.input}
+            className="aasa-input"
+            style={sx(s.input)}
             type="text"
             placeholder="example.com"
             value={domain}
@@ -214,83 +301,65 @@ export function AasaValidator({
             spellCheck={false}
           />
         </div>
-        <button style={s.button} type="submit" disabled={loading}>
+        <button className="aasa-button" style={sx(s.button)} type="submit" disabled={loading}>
           {loading ? 'Checking…' : 'Validate'}
         </button>
-        {advanced && (
-          <div style={s.advanced}>
-            <div style={s.field}>
-              <label style={s.label} htmlFor="aasa-appid">
-                App ID (optional)
-              </label>
-              <input
-                id="aasa-appid"
-                style={s.input}
-                type="text"
-                placeholder="ABCDE12345.com.example.app"
-                value={appID}
-                onChange={(e) => setAppID(e.target.value)}
-              />
-            </div>
-            <div style={s.field}>
-              <label style={s.label} htmlFor="aasa-team">
-                Team ID (optional)
-              </label>
-              <input
-                id="aasa-team"
-                style={s.input}
-                type="text"
-                placeholder="ABCDE12345"
-                value={teamID}
-                onChange={(e) => setTeamID(e.target.value)}
-              />
-            </div>
-            <div style={s.field}>
-              <label style={s.label} htmlFor="aasa-bundle">
-                Bundle ID (optional)
-              </label>
-              <input
-                id="aasa-bundle"
-                style={s.input}
-                type="text"
-                placeholder="com.example.app"
-                value={bundleID}
-                onChange={(e) => setBundleID(e.target.value)}
-              />
-            </div>
-          </div>
-        )}
+        {advanced &&
+          (collapseAdvanced ? (
+            <details className="aasa-advanced-toggle">
+              <summary>{advancedSummary}</summary>
+              {advancedFields}
+            </details>
+          ) : (
+            advancedFields
+          ))}
       </form>
 
       {error && (
-        <div style={s.error} role="alert">
+        <div className="aasa-error" style={sx(s.error)} role="alert">
           {error}
         </div>
       )}
 
       {result && (
-        <div>
-          <div style={s.summary}>
-            <span style={badgeStyle(result.ok)}>{result.ok ? 'Valid' : 'Issues found'}</span>
-            <span style={s.counts}>
+        <div className="aasa-result">
+          <div className="aasa-summary" style={sx(s.summary)}>
+            <span
+              className={`aasa-badge ${result.ok ? 'aasa-badge-valid' : 'aasa-badge-issues'}`}
+              style={sx(badgeStyle(result.ok))}
+            >
+              {result.ok ? 'Valid' : 'Issues found'}
+            </span>
+            <span className="aasa-counts" style={sx(s.counts)}>
               {result.summary.pass} passed · {result.summary.warn} warnings · {result.summary.fail}{' '}
               failed
             </span>
+            {showSource && result.fetchedFrom && (
+              <span className="aasa-source">Fetched from {result.fetchedFrom}</span>
+            )}
           </div>
           {GROUP_ORDER.map((group) => {
             const groupItems = items.filter((i) => i.group === group);
             if (groupItems.length === 0) return null;
             return (
-              <div key={group}>
-                <div style={s.groupTitle}>{GROUP_LABELS[group]}</div>
-                <ul style={s.list}>
+              <div key={group} className={`aasa-group aasa-group-${group}`}>
+                <div className="aasa-group-title" style={sx(s.groupTitle)}>
+                  {GROUP_LABELS[group]}
+                </div>
+                <ul className="aasa-list" style={sx(s.list)}>
                   {groupItems.map((i) => (
-                    <ChecklistRow key={i.id} item={i} />
+                    <ChecklistRow key={i.id} item={i} sx={sx} />
                   ))}
                 </ul>
               </div>
             );
           })}
+          {showRaw && result.raw !== null && (
+            <details className="aasa-raw">
+              <summary>Raw file</summary>
+              <pre>{renderRaw ? renderRaw(result.raw) : result.raw}</pre>
+            </details>
+          )}
         </div>
       )}
     </div>
